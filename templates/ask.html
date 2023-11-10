@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ask a Question</title>
+    <style>
+      body {
+        background-color: #282c34;
+        color: #abb2bf;
+        font-family: Arial, sans-serif;
+      }
+
+      h1,
+      h2 {
+        color: #61afef;
+      }
+
+      input[type="text"],
+      input[type="submit"] {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      input[type="text"] {
+        padding: 5px;
+      }
+
+      input[type="submit"] {
+        background-color: #61afef;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+      }
+
+      #chat-box {
+        background-color: #3b4048;
+        padding: 20px;
+        margin-top: 20px;
+      }
+
+      #chat-box ul {
+        list-style-type: none;
+      }
+
+      #chat-box ul li {
+        margin-bottom: 10px;
+        border: solid #abb2bf 1px; /* Add a border */
+        padding: 10px; /* Add some padding */
+      }
+
+      #chat-box ul li b {
+        display: block; /* Make each bolded element display as a block */
+        margin-bottom: 10px; /* Add a margin to the bottom of each bolded element */
+      }
+    </style>
+    <script>
+      document
+        .getElementById("newChatButton")
+        .addEventListener("click", function () {
+          // Send a request to the server to create a new chat session
+          fetch("/new_chat", { method: "POST" })
+            .then((response) => response.json())
+            .then((data) => {
+              // Update the UI with the new chat session
+              location.reload();
+            });
+        });
+    </script>
+  </head>
+  <body>
+    <h2>All Chat Sessions:</h2>
+
+    <h1>NEW CHAT?</h1>
+    <button id="newChatButton">+</button>
+
+    <h1>Ask a Question</h1>
+    <form method="post" action="/ask">
+      <input
+        type="text"
+        name="question"
+        placeholder="Ask a question"
+        required
+      />
+      <input type="hidden" name="filename" value="{{ filename }}" />
+      <input type="submit" value="Submit" />
+    </form>
+
+    <h2>Answer:</h2>
+    <p>{{ answer }}</p>
+    <h2>Excerpts:</h2>
+    <p>{{ excerpts }}</p>
+
+    <div id="chat-box">
+      <h2>Chat History:</h2>
+    </div>
+    <br />
+  </body>
+</html>
